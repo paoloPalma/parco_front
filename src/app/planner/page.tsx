@@ -40,7 +40,6 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { useData } from "@/providers/DataProvider"
 import TopBar from "@/components/custom-components/topBar"
 import jsPDF from "jspdf"
@@ -289,13 +288,7 @@ export default function PlannerPage() {
 
   // Gestisce il riordinamento degli elementi nel planner
   const handleDragEnd = (result) => {
-    if (!result.destination) return
-
-    const items = Array.from(selectedItems)
-    const [reorderedItem] = items.splice(result.source.index, 1)
-    items.splice(result.destination.index, 0, reorderedItem)
-
-    setSelectedItems(items)
+    // Rimuovo la logica del drag and drop
   }
 
   // Salva l'itinerario
@@ -711,123 +704,52 @@ export default function PlannerPage() {
                         </p>
                       </div>
                     ) : (
-                      <DragDropContext onDragEnd={handleDragEnd}>
-                        <Droppable droppableId="planner-items">
-                          {(provided) => (
-                            <div
-                              {...provided.droppableProps}
-                              ref={provided.innerRef}
-                              className="space-y-3 max-h-[400px] overflow-auto pr-2"
-                            >
-                              {selectedItems.map((item, index) => (
-                                <Draggable key={item.plannerId} draggableId={item.plannerId} index={index}>
-                                  {(provided) => (
-                                    <div
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      className="relative"
+                      <div className="space-y-4">
+                        {selectedItems.map((item, index) => (
+                          <Card key={item.plannerId} className="overflow-hidden">
+                            <CardContent className="p-4">
+                              <div className="flex items-start gap-4">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <Badge
+                                      className={`${
+                                        item.type === "attraction"
+                                          ? getCategoryColor(item.category)
+                                          : "bg-pink-500"
+                                      } text-white`}
                                     >
-                                      <motion.div
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.3 }}
-                                        className={`flex  items-start gap-3 p-3 ps-10 border rounded-xl ${
-                                          item.type === "attraction"
-                                            ? "bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-800/50"
-                                            : "bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20"
-                                        }`}
-                                      >
-                                        <div
-                                          className={`w-10 h-10 rounded-full flex items-center justify-center text-white flex-shrink-0 ${
-                                            item.type === "attraction" ? getCategoryColor(item.category) : "bg-pink-500"
-                                          }`}
-                                        >
-                                          {item.type === "attraction" ? (
-                                            getCategoryIcon(item.category)
-                                          ) : (
-                                            <PartyPopper className="h-5 w-5" />
-                                          )}
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                          <div className="flex items-center justify-between">
-                                            <h3 className="font-medium truncate">{item.name}</h3>
-                                            <Button
-                                              variant="ghost"
-                                              size="icon"
-                                              className="h-6 w-6 text-gray-400 hover:text-red-500"
-                                              onClick={() => removeFromPlanner(item.plannerId)}
-                                            >
-                                              <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                          </div>
-                                          <div className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-                                            <MapPin className="h-3 w-3" />
-                                            <span className="truncate">{item.location}</span>
-                                          </div>
-                                          <div className="flex flex-wrap gap-2 mt-2">
-                                            {item.type === "show" && item.time && (
-                                              <Badge variant="outline" className="text-xs">
-                                                <Clock className="h-3 w-3 mr-1" />
-                                                {item.time}
-                                              </Badge>
-                                            )}
-                                            <Badge variant="outline" className="text-xs">
-                                              Durata: {item.duration} min
-                                            </Badge>
-                                            {item.type === "attraction" && (
-                                              <Badge variant="outline" className="text-xs">
-                                                Attesa: {item.waitTime} min
-                                              </Badge>
-                                            )}
-                                          </div>
-                                        </div>
-                                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex flex-col gap-1">
-                                          <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-5 w-5 bg-gray-100 dark:bg-gray-700 rounded-full"
-                                            onClick={() => {
-                                              if (index > 0) {
-                                                const newItems = [...selectedItems]
-                                                const temp = newItems[index]
-                                                newItems[index] = newItems[index - 1]
-                                                newItems[index - 1] = temp
-                                                setSelectedItems(newItems)
-                                              }
-                                            }}
-                                            disabled={index === 0}
-                                          >
-                                            <ArrowUp className="h-3 w-3" />
-                                          </Button>
-                                          <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-5 w-5 bg-gray-100 dark:bg-gray-700 rounded-full"
-                                            onClick={() => {
-                                              if (index < selectedItems.length - 1) {
-                                                const newItems = [...selectedItems]
-                                                const temp = newItems[index]
-                                                newItems[index] = newItems[index + 1]
-                                                newItems[index + 1] = temp
-                                                setSelectedItems(newItems)
-                                              }
-                                            }}
-                                            disabled={index === selectedItems.length - 1}
-                                          >
-                                            <ArrowDown className="h-3 w-3" />
-                                          </Button>
-                                        </div>
-                                      </motion.div>
-                                    </div>
-                                  )}
-                                </Draggable>
-                              ))}
-                              {provided.placeholder}
-                            </div>
-                          )}
-                        </Droppable>
-                      </DragDropContext>
+                                      {item.type === "attraction" ? (
+                                        getCategoryIcon(item.category)
+                                      ) : (
+                                        <PartyPopper className="h-4 w-4" />
+                                      )}
+                                      {item.type === "attraction" ? item.category : "Spettacolo"}
+                                    </Badge>
+                                    {item.time && (
+                                      <Badge variant="outline">
+                                        <Clock className="h-3 w-3 mr-1" />
+                                        {item.time}
+                                      </Badge>
+                                    )}
+                                  </div>
+                                  <h3 className="font-medium mb-1">{item.name}</h3>
+                                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                                    {item.location}
+                                  </p>
+                                </div>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => removeFromPlanner(item.plannerId)}
+                                  className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
                     )}
 
                     <Separator className="my-4" />
@@ -860,17 +782,6 @@ export default function PlannerPage() {
                     </AnimatePresence>
                   </CardContent>
                   <CardFooter className="flex flex-col gap-3 pt-2">
-                    {/* <Button
-                      className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-xl group overflow-hidden relative"
-                      disabled={selectedItems.length === 0}
-                      onClick={savePlanner}
-                    >
-                      <span className="relative z-10 flex items-center gap-2">
-                        {plannerSaved ? "Aggiorna Itinerario" : "Salva Itinerario"}
-                        <Save className="h-4 w-4" />
-                      </span>
-                      <span className="absolute inset-0 w-full h-full bg-white/20 translate-x-full group-hover:translate-x-[-100%] transition-transform duration-300"></span>
-                    </Button> */}
                     <div className="flex gap-2 w-full">
                       <Button
                         variant="outline"
