@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -19,19 +19,14 @@ import {
   Plus,
   Trash2,
   CalendarIcon,
-  Save,
   Search,
   Filter,
   Zap,
   Droplets,
   Heart,
   PartyPopper,
-  ChevronRight,
-  Share2,
   Download,
   ArrowRight,
-  ArrowUp,
-  ArrowDown,
   Info,
   CheckCircle2,
   AlertCircle,
@@ -43,139 +38,22 @@ import Link from "next/link"
 import { useData } from "@/providers/DataProvider"
 import TopBar from "@/components/custom-components/topBar"
 import jsPDF from "jspdf"
-import html2canvas from "html2canvas"
 
-
-// Dati mock per le attrazioni e gli spettacoli
-/* const attractions = [
-  {
-    id: 1,
-    name: "Tornado Extreme",
-    location: "Zona Adrenalina",
-    duration: 5,
-    waitTime: 45,
-    category: "adrenalina",
-    description: "Un'esperienza adrenalinica con giri a 360° e cadute vertiginose",
-    image: "/placeholder.svg?height=300&width=500&text=Tornado",
-    popular: true,
-  },
-  {
-    id: 2,
-    name: "Splash Mountain",
-    location: "Zona Acquatica",
-    duration: 8,
-    waitTime: 30,
-    category: "acqua",
-    description: "Discesa acquatica con un finale bagnato garantito",
-    image: "/placeholder.svg?height=300&width=500&text=Splash",
-    popular: true,
-  },
-  {
-    id: 3,
-    name: "Fantasy Carousel",
-    location: "Zona Famiglia",
-    duration: 5,
-    waitTime: 15,
-    category: "famiglia",
-    description: "La classica giostra per tutta la famiglia",
-    image: "/placeholder.svg?height=300&width=500&text=Fantasy",
-  },
-  {
-    id: 4,
-    name: "Space Adventure",
-    location: "Zona Futuristica",
-    duration: 10,
-    waitTime: 60,
-    category: "adrenalina",
-    description: "Un viaggio nello spazio con effetti speciali mozzafiato",
-    image: "/placeholder.svg?height=300&width=500&text=Space",
-    popular: true,
-  },
-  {
-    id: 5,
-    name: "Jungle River",
-    location: "Zona Avventura",
-    duration: 12,
-    waitTime: 25,
-    category: "acqua",
-    description: "Un'avventura fluviale attraverso la giungla",
-    image: "/placeholder.svg?height=300&width=500&text=Jungle",
-  },
-  {
-    id: 6,
-    name: "Mini Train",
-    location: "Zona Famiglia",
-    duration: 8,
-    waitTime: 10,
-    category: "famiglia",
-    description: "Un trenino per i più piccoli attraverso paesaggi incantati",
-    image: "/placeholder.svg?height=300&width=500&text=Train",
-  },
-  {
-    id: 7,
-    name: "Dragon's Fury",
-    location: "Zona Fantasy",
-    duration: 7,
-    waitTime: 50,
-    category: "adrenalina",
-    description: "Cavalca il drago più veloce del regno e sfida le fiamme!",
-    image: "/placeholder.svg?height=300&width=500&text=Dragon",
-  },
-  {
-    id: 8,
-    name: "Pirate's Cove",
-    location: "Zona Avventura",
-    duration: 15,
-    waitTime: 35,
-    category: "acqua",
-    description: "Naviga nelle acque infestate dai pirati e cerca il tesoro nascosto!",
-    image: "/placeholder.svg?height=300&width=500&text=Pirate",
-  },
-]
-
-const shows = [
-  {
-    id: 101,
-    name: "Magia delle Acque",
-    location: "Piazza Centrale",
-    duration: 30,
-    times: ["11:00", "15:00", "19:00"],
-    description: "Uno spettacolo di fontane danzanti con luci e musica",
-    image: "/placeholder.svg?height=300&width=500&text=Magia+Acque",
-    popular: true,
-  },
-  {
-    id: 102,
-    name: "Acrobati del Cielo",
-    location: "Arena Spettacoli",
-    duration: 45,
-    times: ["12:30", "17:30"],
-    description: "Esibizione di acrobati professionisti con numeri mozzafiato",
-    image: "/placeholder.svg?height=300&width=500&text=Acrobati",
-    popular: true,
-  },
-  {
-    id: 103,
-    name: "Parata dei Personaggi",
-    location: "Viale Principale",
-    duration: 40,
-    times: ["14:00", "18:00"],
-    description: "I personaggi del parco sfilano in una colorata parata",
-    image: "/placeholder.svg?height=300&width=500&text=Parata",
-  },
-  {
-    id: 104,
-    name: "Musical Fantasy",
-    location: "Teatro Incantato",
-    duration: 60,
-    times: ["13:00", "16:00", "20:00"],
-    description: "Un musical con canzoni originali e coreografie spettacolari",
-    image: "/placeholder.svg?height=300&width=500&text=Musical",
-  },
-] */
+interface PlannerItem {
+  id: number
+  name: string
+  description: string
+  location: string
+  duration: number
+  waitTime?: number
+  type: "attraction" | "show"
+  category: string
+  plannerId: string
+  time?: string
+}
 
 // Funzione per ottenere l'icona della categoria
-const getCategoryIcon = (category) => {
+const getCategoryIcon = (category: string) => {
   switch (category) {
     case "adrenalina":
       return <Zap className="h-5 w-5" />
@@ -189,7 +67,7 @@ const getCategoryIcon = (category) => {
 }
 
 // Funzione per ottenere il colore della categoria
-const getCategoryColor = (category) => {
+const getCategoryColor = (category: string): string => {
   switch (category) {
     case "adrenalina":
       return "bg-red-500"
@@ -203,47 +81,45 @@ const getCategoryColor = (category) => {
 }
 
 // Funzione per ottenere il colore del gradiente della categoria
-const getCategoryGradient = (category) => {
+const getCategoryGradient = (category: string): string => {
   switch (category) {
     case "adrenalina":
       return "from-red-500 to-orange-600"
     case "acqua":
       return "from-blue-500 to-cyan-600"
     case "famiglia":
-      return "from-amber-500 to-yellow-600"
+      return "from-amber-500 to-orange-600"
     default:
       return "from-gray-500 to-gray-600"
   }
 }
 
 // Funzione per formattare il tempo in ore e minuti
-const formatTime = (minutes) => {
+const formatTime = (minutes: number): string => {
   if (!minutes || isNaN(minutes)) return "0 min"
   const hours = Math.floor(minutes / 60)
   const mins = minutes % 60
-  return `${hours > 0 ? `${hours}h ` : ""}${mins}min`
+  return hours > 0 ? `${hours}h ${mins}min` : `${mins} min`
 }
 
 export default function PlannerPage() {
   const [isLoaded, setIsLoaded] = useState(false)
-  const [selectedItems, setSelectedItems] = useState([])
+  const [selectedItems, setSelectedItems] = useState<PlannerItem[]>([])
   const [activeTab, setActiveTab] = useState("attrazioni")
   const [searchQuery, setSearchQuery] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("tutte")
   const [visitDate, setVisitDate] = useState<Date | undefined>(new Date())
   const [plannerName, setPlannerName] = useState("Il mio itinerario")
-  const [plannerSaved, setPlannerSaved] = useState(false)
-  const [showConfirmation, setShowConfirmation] = useState(false)
-  const { attractions, shows, loading, error } = useData()
-  const plannerRef = useRef(null)
-
+  const [showConfirmation] = useState(false)
+  const { attractions, shows} = useData()
+  const plannerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setIsLoaded(true)
   }, [])
 
-  const addToPlanner = (item, type, time = null) => {
-    const newItem = {
+  const addToPlanner = (item: any, type: "attraction" | "show", time: string | null = null) => {
+    const newItem: PlannerItem = {
       ...item,
       type,
       plannerId: `${type}-${item.id}-${Date.now()}`,
@@ -252,7 +128,7 @@ export default function PlannerPage() {
     setSelectedItems([...selectedItems, newItem])
   }
 
-  const removeFromPlanner = (plannerId) => {
+  const removeFromPlanner = (plannerId: string) => {
     setSelectedItems(selectedItems.filter((item) => item.plannerId !== plannerId))
   }
 
@@ -286,7 +162,7 @@ export default function PlannerPage() {
     )
   })
 
-  // Gestisce il riordinamento degli elementi nel planner
+ /*  // Gestisce il riordinamento degli elementi nel planner
   const handleDragEnd = (result) => {
     // Rimuovo la logica del drag and drop
   }
@@ -299,7 +175,7 @@ export default function PlannerPage() {
     setTimeout(() => {
       setShowConfirmation(false)
     }, 3000)
-  }
+  } */
 
   const downloadPDF = () => {
     try {
@@ -383,7 +259,7 @@ export default function PlannerPage() {
       pdf.text(`Numero di attività: ${selectedItems.length}`, 25, yPosition)
 
       // Piè di pagina
-      const pageCount = pdf.internal.getNumberOfPages()
+      const pageCount = pdf.internal.pages.length
       for (let i = 1; i <= pageCount; i++) {
         pdf.setPage(i)
         pdf.setFontSize(10)

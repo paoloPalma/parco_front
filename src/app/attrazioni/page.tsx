@@ -391,7 +391,7 @@ export default function AttractionsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {filteredAttractions.map((attraction, index) => (
                     <AttractionCard
-                      key={attraction.id}
+                      key={index}
                       attraction={attraction}
                       index={index}
                       onSelect={() => openAttractionDetails(attraction)}
@@ -599,7 +599,7 @@ export default function AttractionsPage() {
             className="max-w-3xl mx-auto text-center"
           >
             <Badge className="bg-white/20 text-white mb-6 px-3 py-1 text-sm rounded-full">PRENOTA ORA</Badge>
-            <h2 className="text-4xl font-bold mb-6">Pronto a vivere l'avventura?</h2>
+            <h2 className="text-4xl font-bold mb-6">Pronto a vivere l&apos;avventura?</h2>
             <p className="text-xl mb-10 text-white/80">
               Acquista ora i tuoi biglietti e preparati a vivere un&apos;esperienza indimenticabile a EnjoyPark!
             </p>

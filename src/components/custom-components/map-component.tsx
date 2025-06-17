@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect } from "react"
-import { MapContainer, Marker, Popup, useMap, ImageOverlay, useMapEvents } from "react-leaflet"
+
+import { MapContainer, Marker, Popup, ImageOverlay, useMapEvents } from "react-leaflet"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 
@@ -16,7 +16,6 @@ L.Icon.Default.mergeOptions({
 function BoundsController() {
   const map = useMapEvents({
     dragend: () => {
-      const center = map.getCenter()
       const bounds = map.getBounds()
       const maxBounds = map.getBounds()
       
@@ -82,7 +81,7 @@ interface MapComponentProps {
 }
 
 // Componente principale della mappa
-export default function MapComponent({ points, onPointClick, selectedPoint }: MapComponentProps) {
+export default function MapComponent({ points, onPointClick }: MapComponentProps) {
   // Definisci i bounds dell'immagine della mappa
   const bounds: L.LatLngBoundsExpression = [
     [0, 0],     // Angolo sud-ovest

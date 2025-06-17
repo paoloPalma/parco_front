@@ -43,6 +43,8 @@ import {
   Heart,
   Info,
   AlertCircle,
+  Filter,
+  Download,
 } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";

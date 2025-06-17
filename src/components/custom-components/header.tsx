@@ -4,7 +4,8 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Calendar, MapPin, Ticket, Menu, X, Home, PartyPopper, Info, Sparkles } from "lucide-react"
+import { Calendar, MapPin, Ticket, Menu, X, Home, PartyPopper,Sparkles } from "lucide-react"
+
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)

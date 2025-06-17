@@ -34,9 +34,6 @@ import {
   Smartphone,
   Clock,
   Sparkles,
-  Coffee,
-  Baby,
-  AmbulanceIcon as FirstAid,
   Ticket,
 } from "lucide-react"
 import Image from "next/image"
