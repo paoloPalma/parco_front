@@ -15,17 +15,12 @@ import {
   Minus,
   Star,
   Sparkles,
-  ArrowRight,
   Ticket,
   PartyPopper,
   Heart,
   Zap,
   Droplets,
   MapPin,
-  Clock,
-  Info,
-  Check,
-  Shield,
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
@@ -44,7 +39,7 @@ export default function Home() {
   } = useTickets()
 
   const [activeAttraction, setActiveAttraction] = useState(0)
-  const [showConfetti, setShowConfetti] = useState(false)
+  const [showConfetti] = useState(false)
   const [floatingElements, setFloatingElements] = useState<Array<{
     id: number;
     width: number;
@@ -253,7 +248,7 @@ export default function Home() {
                   </h1>
 
                   <p className="text-xl mb-6 text-white/90 max-w-md">
-                    Vivi un'esperienza indimenticabile nel parco divertimenti più emozionante d&apos;Italia!
+                    Vivi un&apos; esperienza indimenticabile nel parco divertimenti più emozionante d&apos;Italia!
                   </p>
 
                   <div className="flex flex-wrap gap-4">

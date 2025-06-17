@@ -1,11 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   motion,
   AnimatePresence,
-  useScroll,
-  useTransform,
 } from "framer-motion";
 import {
   Card,
@@ -37,14 +35,11 @@ import {
   PartyPopper,
   Music,
   Sparkles,
-  Ticket,
   Users,
   Share2,
   Heart,
   Info,
   AlertCircle,
-  Filter,
-  Download,
 } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
@@ -264,32 +259,16 @@ const getFilteredTimes = (show: ShowCardProps["show"], activeTab: string): strin
   return show.times;
 };
 
-// Funzione per gestire i preferiti
-const toggleFavorite = (id: number, favorites: number[], setFavorites: React.Dispatch<React.SetStateAction<number[]>>) => {
-  setFavorites((prev) => {
-    if (prev.includes(id)) {
-      return prev.filter((showId) => showId !== id);
-    } else {
-      return [...prev, id];
-    }
-  });
-};
-
 export default function ShowsPage() {
   const { shows, loading, error } = useData();
-  const [isLoaded, setIsLoaded] = useState(false);
   const [activeTab, setActiveTab] = useState("tutti");
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date()
-  );
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedShow, setSelectedShow] = useState<ShowCardProps["show"] | null>(null);
   const [showDetailPanel, setShowDetailPanel] = useState(false);
   const [favorites, setFavorites] = useState<number[]>([]);
 
   useEffect(() => {
-    setIsLoaded(true);
-
     // Simulazione di uno spettacolo selezionato all'avvio per mostrare la funzionalità
     const timer = setTimeout(() => {
       const popularShow = shows.find((s) => s.popular);
@@ -375,7 +354,7 @@ export default function ShowsPage() {
   });
 
   // Gestisce il click su uno spettacolo
-  const handleShowClick = (show) => {
+  const handleShowClick = (show: ShowCardProps["show"]) => {
     setSelectedShow(show);
     setShowDetailPanel(true);
   };
@@ -387,7 +366,7 @@ export default function ShowsPage() {
   };
 
   // Gestisce l'aggiunta/rimozione dai preferiti
-  const handleToggleFavorite = (id) => {
+  const handleToggleFavorite = (id: number) => {
     setFavorites((prev) => {
       if (prev.includes(id)) {
         return prev.filter((showId) => showId !== id);

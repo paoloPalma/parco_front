@@ -132,7 +132,6 @@ export default function AttractionsPage() {
   const [activeCategory, setActiveCategory] = useState("tutte")
   const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
-  const [showDetailPanel, setShowDetailPanel] = useState(false)
   const [filters] = useState({
     attractions: true,
     restaurants: true,
@@ -304,7 +303,6 @@ export default function AttractionsPage() {
   // Gestisce il click su un punto della mappa
   const handlePointClick = (point: MapPoint) => {
     setSelectedPoint(point)
-    setShowDetailPanel(true)
   }
 
   return (
@@ -500,54 +498,6 @@ export default function AttractionsPage() {
               viewport={{ once: true }}
               className="relative"
             >
-              {/* <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl">
-                <Image
-                  src="/placeholder.svg?height=800&width=800&text=Mappa+del+Parco"
-                  alt="Mappa del Parco"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-
-                <div className="absolute top-1/4 left-1/3 group">
-                  <div className="relative">
-                    <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center text-white z-10 relative">
-                      <Zap className="h-3 w-3" />
-                    </div>
-                    <div className="absolute inset-0 rounded-full bg-red-500 animate-ping opacity-75"></div>
-                    <div className="absolute -inset-1 rounded-full bg-red-500 animate-pulse opacity-50"></div>
-                    <div className="opacity-0 group-hover:opacity-100 absolute -top-12 left-1/2 -translate-x-1/2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs rounded-lg py-1 px-2 whitespace-nowrap transition-opacity duration-200 shadow-lg">
-                      Zona Adrenalina
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute top-1/2 right-1/4 group">
-                  <div className="relative">
-                    <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white z-10 relative">
-                      <Droplets className="h-3 w-3" />
-                    </div>
-                    <div className="absolute inset-0 rounded-full bg-blue-500 animate-ping opacity-75"></div>
-                    <div className="absolute -inset-1 rounded-full bg-blue-500 animate-pulse opacity-50"></div>
-                    <div className="opacity-0 group-hover:opacity-100 absolute -top-12 left-1/2 -translate-x-1/2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs rounded-lg py-1 px-2 whitespace-nowrap transition-opacity duration-200 shadow-lg">
-                      Zona Acquatica
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute bottom-1/4 left-1/4 group">
-                  <div className="relative">
-                    <div className="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center text-white z-10 relative">
-                      <Heart className="h-3 w-3" />
-                    </div>
-                    <div className="absolute inset-0 rounded-full bg-amber-500 animate-ping opacity-75"></div>
-                    <div className="absolute -inset-1 rounded-full bg-amber-500 animate-pulse opacity-50"></div>
-                    <div className="opacity-0 group-hover:opacity-100 absolute -top-12 left-1/2 -translate-x-1/2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs rounded-lg py-1 px-2 whitespace-nowrap transition-opacity duration-200 shadow-lg">
-                      Zona Famiglia
-                    </div>
-                  </div>
-                </div>
-              </div> */}
               <Card className="border-none shadow-xl py-0 overflow-hidden rounded-2xl h-[50vh] bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
                     <div className="relative w-full h-full">
                       {<MapComponent

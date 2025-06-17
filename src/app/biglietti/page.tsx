@@ -1073,7 +1073,7 @@ export default function TicketsPage() {
                         <div className="bg-emerald-50 dark:bg-emerald-950/20 p-3 rounded-xl text-sm flex items-start gap-2 mt-2">
                           <Info className="h-4 w-4 mt-0.5 flex-shrink-0 text-emerald-600 dark:text-emerald-400" />
                           <p className="text-gray-700 dark:text-gray-300">
-                            I biglietti saranno inviati via email dopo il completamento dell'acquisto. Potrai accedere
+                            I biglietti saranno inviati via email dopo il completamento dell&apos; acquisto. Potrai accedere
                             al parco mostrando il QR code ricevuto.
                           </p>
                         </div>
@@ -1153,8 +1153,8 @@ export default function TicketsPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600 dark:text-gray-300">
-                    Sì, i biglietti standard e premium sono validi solo per la data selezionata durante l'acquisto. Gli
-                    abbonamenti stagionali invece consentono l'accesso illimitato per tutta la stagione di apertura del
+                    Sì, i biglietti standard e premium sono validi solo per la data selezionata durante l&apos; acquisto. Gli
+                    abbonamenti stagionali invece consentono l&apos; accesso illimitato per tutta la stagione di apertura del
                     parco.
                   </p>
                 </CardContent>
@@ -1173,7 +1173,7 @@ export default function TicketsPage() {
                     <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mr-2">
                       <Info className="h-4 w-4" />
                     </div>
-                    Posso modificare la data dopo l'acquisto?
+                    Posso modificare la data dopo l&apos; acquisto?
                   </CardTitle>
                 </CardHeader>
                 <CardContent>

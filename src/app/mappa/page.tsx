@@ -67,6 +67,7 @@ interface MapPoint {
   color?: string
   rating?: number
   popular?: boolean
+  icon?: React.ReactNode
 }
 
 // Funzione per ottenere l'icona della categoria
@@ -687,7 +688,7 @@ export default function MapPage() {
                                   <Share2 className="h-4 w-4 mr-2" /> Condividi
                                 </Button>
                                 <Button variant="outline" className="flex-1 rounded-xl">
-                                  <Smartphone className="h-4 w-4 mr-2" /> Salva nell'app
+                                  <Smartphone className="h-4 w-4 mr-2" /> Salva nell&apos; app
                                 </Button>
                               </div>
                             </div>
@@ -1240,7 +1241,7 @@ export default function MapPage() {
                     className="mt-auto w-full rounded-xl border-blue-200 dark:border-blue-900 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 group"
                   >
                     <span className="flex items-center gap-2">
-                      Scarica l'App
+                      Scarica l&apos; App
                       <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </Button>
@@ -1266,9 +1267,9 @@ export default function MapPage() {
             className="max-w-3xl mx-auto text-center"
           >
             <Badge className="bg-white/20 text-white mb-6 px-3 py-1 text-sm rounded-full">PRENOTA ORA</Badge>
-            <h2 className="text-4xl font-bold mb-6">Pronto per l'avventura?</h2>
+            <h2 className="text-4xl font-bold mb-6">Pronto per l&apos; avventura?</h2>
             <p className="text-xl mb-10 text-white/80">
-              Acquista ora i tuoi biglietti e preparati a vivere un'esperienza indimenticabile a EnjoyPark!
+              Acquista ora i tuoi biglietti e preparati a vivere un&apos; esperienza indimenticabile a EnjoyPark!
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button

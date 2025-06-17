@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -44,12 +44,12 @@ interface PlannerItem {
   name: string
   description: string
   location: string
-  duration: number
+  duration: string | number
   waitTime?: number
   type: "attraction" | "show"
   category: string
   plannerId: string
-  time?: string
+  time?: string | null
 }
 
 // Funzione per ottenere l'icona della categoria
@@ -103,7 +103,6 @@ const formatTime = (minutes: number): string => {
 }
 
 export default function PlannerPage() {
-  const [isLoaded, setIsLoaded] = useState(false)
   const [selectedItems, setSelectedItems] = useState<PlannerItem[]>([])
   const [activeTab, setActiveTab] = useState("attrazioni")
   const [searchQuery, setSearchQuery] = useState("")
@@ -114,16 +113,12 @@ export default function PlannerPage() {
   const { attractions, shows} = useData()
   const plannerRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    setIsLoaded(true)
-  }, [])
-
-  const addToPlanner = (item: any, type: "attraction" | "show", time: string | null = null) => {
+  const addToPlanner = (item: Omit<PlannerItem, 'type' | 'plannerId' | 'time'>, type: "attraction" | "show", time: string | null = null) => {
     const newItem: PlannerItem = {
       ...item,
       type,
       plannerId: `${type}-${item.id}-${Date.now()}`,
-      time,
+      time: time || undefined,
     }
     setSelectedItems([...selectedItems, newItem])
   }
@@ -161,21 +156,6 @@ export default function PlannerPage() {
       show.description.toLowerCase().includes(searchQuery.toLowerCase())
     )
   })
-
- /*  // Gestisce il riordinamento degli elementi nel planner
-  const handleDragEnd = (result) => {
-    // Rimuovo la logica del drag and drop
-  }
-
-  // Salva l'itinerario
-  const savePlanner = () => {
-    // Qui andrebbe la logica per salvare l'itinerario
-    setPlannerSaved(true)
-    setShowConfirmation(true)
-    setTimeout(() => {
-      setShowConfirmation(false)
-    }, 3000)
-  } */
 
   const downloadPDF = () => {
     try {
@@ -385,7 +365,7 @@ export default function PlannerPage() {
                                       {attraction.category.charAt(0).toUpperCase() + attraction.category.slice(1)}
                                     </Badge>
                                   </div>
-                                  {attraction.popular && (
+                                  {attraction.popularity > 4 && (
                                     <div className="absolute top-3 right-3">
                                       <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
                                         Popolare
@@ -581,7 +561,7 @@ export default function PlannerPage() {
                       </div>
                     ) : (
                       <div className="space-y-4">
-                        {selectedItems.map((item, index) => (
+                        {selectedItems.map((item) => (
                           <Card key={item.plannerId} className="overflow-hidden">
                             <CardContent className="p-4">
                               <div className="flex items-start gap-4">
@@ -733,9 +713,9 @@ export default function PlannerPage() {
             className="max-w-3xl mx-auto text-center"
           >
             <Badge className="bg-white/20 text-white mb-6 px-3 py-1 text-sm rounded-full">ACQUISTA ORA</Badge>
-            <h2 className="text-4xl font-bold mb-6">Pronto per l'avventura?</h2>
+            <h2 className="text-4xl font-bold mb-6">Pronto per l&apos; avventura?</h2>
             <p className="text-xl mb-10 text-white/80">
-              Acquista ora i tuoi biglietti e preparati a vivere un'esperienza indimenticabile a EnjoyPark!
+              Acquista ora i tuoi biglietti e preparati a vivere un&apos; esperienza indimenticabile a EnjoyPark!
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Button
