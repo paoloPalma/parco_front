@@ -43,6 +43,8 @@ import Link from "next/link"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { useData } from "@/providers/DataProvider"
 import TopBar from "@/components/custom-components/topBar"
+import jsPDF from "jspdf"
+import html2canvas from "html2canvas"
 
 
 // Dati mock per le attrazioni e gli spettacoli
@@ -217,6 +219,7 @@ const getCategoryGradient = (category) => {
 
 // Funzione per formattare il tempo in ore e minuti
 const formatTime = (minutes) => {
+  if (!minutes || isNaN(minutes)) return "0 min"
   const hours = Math.floor(minutes / 60)
   const mins = minutes % 60
   return `${hours > 0 ? `${hours}h ` : ""}${mins}min`
@@ -233,6 +236,7 @@ export default function PlannerPage() {
   const [plannerSaved, setPlannerSaved] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
   const { attractions, shows, loading, error } = useData()
+  const plannerRef = useRef(null)
 
 
   useEffect(() => {
@@ -255,7 +259,9 @@ export default function PlannerPage() {
 
   // Calcola il tempo totale stimato
   const totalTime = selectedItems.reduce((total, item) => {
-    return total + item.duration + (item.type === "attraction" ? item.waitTime : 0)
+    const itemDuration = Number(item.duration) || 0
+    const waitTime = item.type === "attraction" ? (Number(item.waitTime) || 0) : 0
+    return total + itemDuration + waitTime
   }, 0)
 
   // Filtra le attrazioni in base alla ricerca e alla categoria
@@ -300,6 +306,106 @@ export default function PlannerPage() {
     setTimeout(() => {
       setShowConfirmation(false)
     }, 3000)
+  }
+
+  const downloadPDF = () => {
+    try {
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      })
+
+      // Impostiamo il font
+      pdf.setFont('helvetica', 'bold')
+      pdf.setFontSize(24)
+      
+      // Titolo
+      pdf.text(plannerName || 'Il mio itinerario', 20, 20)
+      
+      // Data
+      if (visitDate) {
+        pdf.setFontSize(14)
+        pdf.setFont('helvetica', 'normal')
+        pdf.text(`Data visita: ${format(visitDate, 'dd/MM/yyyy', { locale: it })}`, 20, 30)
+      }
+
+      // Intestazione attività
+      pdf.setFontSize(18)
+      pdf.setFont('helvetica', 'bold')
+      pdf.text('Attività pianificate:', 20, 45)
+
+      // Lista attività
+      let yPosition = 55
+      selectedItems.forEach((item, index) => {
+        // Controllo se serve una nuova pagina
+        if (yPosition > 270) {
+          pdf.addPage()
+          yPosition = 20
+        }
+
+        // Numero e nome attività
+        pdf.setFontSize(14)
+        pdf.setFont('helvetica', 'bold')
+        pdf.text(`${index + 1}. ${item.name}`, 20, yPosition)
+        yPosition += 8
+
+        // Dettagli attività
+        pdf.setFontSize(12)
+        pdf.setFont('helvetica', 'normal')
+        pdf.text(`${item.location}`, 25, yPosition)
+        yPosition += 7
+        pdf.text(`Durata: ${item.duration} min`, 25, yPosition)
+        yPosition += 7
+
+        if (item.type === 'attraction') {
+          pdf.text(`Tempo di attesa stimato: ${item.waitTime} min`, 25, yPosition)
+          yPosition += 7
+        }
+
+        if (item.type === 'show' && item.time) {
+          pdf.text(`Orario: ${item.time}`, 25, yPosition)
+          yPosition += 7
+        }
+
+        // Spazio tra le attività
+        yPosition += 10
+      })
+
+      // Riepilogo
+      if (yPosition > 250) {
+        pdf.addPage()
+        yPosition = 20
+      }
+
+      pdf.setFontSize(14)
+      pdf.setFont('helvetica', 'bold')
+      pdf.text('Riepilogo:', 20, yPosition)
+      yPosition += 10
+
+      pdf.setFontSize(12)
+      pdf.setFont('helvetica', 'normal')
+      pdf.text(`Tempo totale stimato: ${formatTime(totalTime)}`, 25, yPosition)
+      yPosition += 7
+      pdf.text(`Numero di attività: ${selectedItems.length}`, 25, yPosition)
+
+      // Piè di pagina
+      const pageCount = pdf.internal.getNumberOfPages()
+      for (let i = 1; i <= pageCount; i++) {
+        pdf.setPage(i)
+        pdf.setFontSize(10)
+        pdf.text(
+          `EnjoyPark - Pagina ${i} di ${pageCount}`,
+          pdf.internal.pageSize.width / 2,
+          pdf.internal.pageSize.height - 10,
+          { align: 'center' }
+        )
+      }
+
+      pdf.save(`${plannerName || 'itinerario'}.pdf`)
+    } catch (error) {
+      console.error('Errore durante la generazione del PDF:', error)
+    }
   }
 
   return (
@@ -595,7 +701,7 @@ export default function PlannerPage() {
                     </div>
                     <CardDescription>Trascina gli elementi per riordinare</CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent ref={plannerRef}>
                     {selectedItems.length === 0 ? (
                       <div className="text-center py-8 text-muted-foreground">
                         <CalendarIcon className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
@@ -626,7 +732,7 @@ export default function PlannerPage() {
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.3 }}
-                                        className={`flex items-start gap-3 p-3 border rounded-xl ${
+                                        className={`flex  items-start gap-3 p-3 ps-10 border rounded-xl ${
                                           item.type === "attraction"
                                             ? "bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-800/50"
                                             : "bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20"
@@ -676,7 +782,7 @@ export default function PlannerPage() {
                                             )}
                                           </div>
                                         </div>
-                                        <div className="absolute -left-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-1">
+                                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex flex-col gap-1">
                                           <Button
                                             variant="ghost"
                                             size="icon"
@@ -754,7 +860,7 @@ export default function PlannerPage() {
                     </AnimatePresence>
                   </CardContent>
                   <CardFooter className="flex flex-col gap-3 pt-2">
-                    <Button
+                    {/* <Button
                       className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-xl group overflow-hidden relative"
                       disabled={selectedItems.length === 0}
                       onClick={savePlanner}
@@ -764,7 +870,7 @@ export default function PlannerPage() {
                         <Save className="h-4 w-4" />
                       </span>
                       <span className="absolute inset-0 w-full h-full bg-white/20 translate-x-full group-hover:translate-x-[-100%] transition-transform duration-300"></span>
-                    </Button>
+                    </Button> */}
                     <div className="flex gap-2 w-full">
                       <Button
                         variant="outline"
@@ -777,13 +883,14 @@ export default function PlannerPage() {
                           <span>Mappa</span>
                         </Link>
                       </Button>
-                      <Button variant="outline" className="flex-1 rounded-xl" disabled={selectedItems.length === 0}>
-                        <Share2 className="h-4 w-4 mr-2" />
-                        <span>Condividi</span>
-                      </Button>
-                      <Button variant="outline" className="flex-1 rounded-xl" disabled={selectedItems.length === 0}>
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 rounded-xl" 
+                        disabled={selectedItems.length === 0}
+                        onClick={downloadPDF}
+                      >
                         <Download className="h-4 w-4 mr-2" />
-                        <span>PDF</span>
+                        <span>Scarica PDF</span>
                       </Button>
                     </div>
                   </CardFooter>

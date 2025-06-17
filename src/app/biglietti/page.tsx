@@ -355,7 +355,7 @@ export default function TicketsPage() {
                           {ticketView === "grid" ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                               {tickets.map((ticket) => (
-                                <div key={ticket.id} className="relative">
+                                <div key={ticket.id} className="relative ">
                                   <RadioGroupItem value={ticket.id} id={ticket.id} className="peer sr-only" />
                                   <Label
                                     htmlFor={ticket.id}
@@ -413,11 +413,11 @@ export default function TicketsPage() {
                           ) : (
                             <div className="space-y-4">
                               {tickets.map((ticket) => (
-                                <div key={ticket.id} className="relative">
+                                <div key={ticket.id} className="relative ">
                                   <RadioGroupItem value={ticket.id} id={`list-${ticket.id}`} className="peer sr-only" />
                                   <Label
                                     htmlFor={`list-${ticket.id}`}
-                                    className="flex items-start p-4 border rounded-xl cursor-pointer transition-all duration-300 hover:shadow-md peer-data-[state=checked]:border-emerald-500 peer-data-[state=checked]:bg-emerald-50 dark:peer-data-[state=checked]:bg-emerald-950/20 dark:hover:bg-gray-800"
+                                    className="flex  items-start p-4 border rounded-xl cursor-pointer transition-all duration-300 hover:shadow-md peer-data-[state=checked]:border-emerald-500 peer-data-[state=checked]:bg-emerald-50 dark:peer-data-[state=checked]:bg-emerald-950/20 dark:hover:bg-gray-800"
                                   >
                                     <div className="flex-shrink-0 mr-4">
                                       <div
@@ -454,7 +454,7 @@ export default function TicketsPage() {
                                         ))}
                                       </div>
                                       {ticket.badge && (
-                                        <div className="absolute top-4 right-4">
+                                        <div className="absolute top-22 right-3">
                                           <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
                                             {ticket.badge}
                                           </Badge>
@@ -1284,12 +1284,12 @@ export default function TicketsPage() {
                 className="text-white border-white/30 hover:bg-white/10 rounded-full px-8 py-6 text-lg group"
               >
                 <Link href="/mappa" className="flex items-center gap-2">
-                  <span>Mappa del Parco</span>
+                  <span className="text-black">Mappa del Parco</span>
                   <motion.div
                     animate={{ rotate: [0, 15, 0, -15, 0] }}
                     transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2, delay: 1 }}
                   >
-                    <MapPin className="h-5 w-5" />
+                    <MapPin className="h-5 w-5 text-black" />
                   </motion.div>
                 </Link>
               </Button>

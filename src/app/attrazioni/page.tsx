@@ -27,6 +27,23 @@ import Link from "next/link"
 import TopBar from "@/components/custom-components/topBar"
 import { useData } from "@/providers/DataProvider"
 import dynamic from "next/dynamic"
+import type { ReactElement } from "react"
+
+interface MapPoint {
+  id: number
+  name: string
+  description: string
+  category: "attraction" | "restaurant" | "service" | "show" | "shop"
+  subcategory: string
+  position: [number, number]
+  waitTime?: number
+  icon?: ReactElement
+  image?: string
+  details?: string[]
+  color?: string
+  rating?: number
+  popular?: boolean
+}
 
 interface Attraction {
   id: number;
@@ -113,17 +130,17 @@ export default function AttractionsPage() {
   const { attractions, loading, error, shows } = useData()
   const [selectedAttraction, setSelectedAttraction] = useState<Attraction | null>(null)
   const [activeCategory, setActiveCategory] = useState("tutte")
-  const [selectedPoint, setSelectedPoint] = useState(null)
+  const [selectedPoint, setSelectedPoint] = useState<MapPoint | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [showDetailPanel, setShowDetailPanel] = useState(false)
-  const [filters, setFilters] = useState({
+  const [filters] = useState({
     attractions: true,
     restaurants: true,
     services: true,
     shows: true,
     shops: true,
   })
-  const [showPopular, setShowPopular] = useState(false)
+  const [showPopular] = useState(false)
   const filteredAttractions = attractions.filter((attraction: Attraction) => {
     if (activeCategory !== "tutte" && attraction.category !== activeCategory) {
       return false
@@ -177,7 +194,7 @@ export default function AttractionsPage() {
   
 
   // Converti le attrazioni nel formato MapPoint
-  const attractionPoints = attractions.map(attraction => ({
+  const attractionPoints: MapPoint[] = attractions.map(attraction => ({
     id: attraction.id,
     name: attraction.name,
     description: attraction.description,
@@ -198,7 +215,7 @@ export default function AttractionsPage() {
   }))
 
   // Converti gli spettacoli nel formato MapPoint
-  const showPoints = shows.map(show => ({
+  const showPoints: MapPoint[] = shows.map(show => ({
     id: show.id,
     name: show.name,
     description: show.description,
@@ -218,7 +235,7 @@ export default function AttractionsPage() {
   }))
 
   // Combina tutti i punti
-  const mapPoints = [
+  const mapPoints: MapPoint[] = [
     ...attractionPoints,
     ...showPoints,
     {
@@ -364,10 +381,11 @@ export default function AttractionsPage() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeCategory + searchQuery}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
+              className="min-h-[400px]"
             >
               {filteredAttractions.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -760,10 +778,8 @@ function AttractionCard({ attraction, index, onSelect }: AttractionCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      whileHover={{ y: -5 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.05 }}
       className="h-full"
     >
       <Card className="overflow-hidden pt-0 border-none shadow-lg hover:shadow-xl transition-all duration-300 h-full bg-white dark:bg-gray-800 group">
