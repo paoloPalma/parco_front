@@ -73,7 +73,7 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 // Usa la variabile d'ambiente NEXT_PUBLIC_BACKEND_URL, fallback a localhost per sicurezza
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
   const [attractions, setAttractions] = useState<Attraction[]>([]);
