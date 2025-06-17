@@ -377,7 +377,7 @@ export default function TicketsPage() {
                                       )}
                                     </div>
 
-                                    <div className="mt-4 relative w-full h-32 rounded-lg overflow-hidden">
+                                    {/* <div className="mt-4 relative w-full h-32 rounded-lg overflow-hidden">
                                       <Image
                                         src={ticket.image || "/placeholder.svg"}
                                         alt={ticket.name}
@@ -385,11 +385,11 @@ export default function TicketsPage() {
                                         className="object-cover transition-transform duration-300 hover:scale-105"
                                       />
                                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                                      <div className="absolute bottom-2 left-2 right-2">
-                                        <div className="text-2xl font-bold text-white">{ticket.price}€</div>
-                                        <div className="text-sm text-white/80">a persona</div>
-                                      </div>
-                                    </div>
+                                    </div> */}
+                                      
+                                        <div className="mt-4 text-2xl font-bold text-black">{ticket.price}€</div>
+                                        <div className="text-sm text-black">a persona</div>
+                                      
 
                                     <p className="text-gray-600 dark:text-gray-300 mt-4">{ticket.description}</p>
 
