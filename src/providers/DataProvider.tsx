@@ -82,6 +82,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [extras, setExtras] = useState<Extra[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  console.log(BASE_URL);
 
   const fetchAttractions = async () => {
     try {
