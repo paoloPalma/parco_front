@@ -743,8 +743,8 @@ export default function PlannerPage() {
                 className="text-white border-white/30 hover:bg-white/10 rounded-full px-8 py-6 text-lg"
               >
                 <Link href="/attrazioni" className="flex items-center gap-2">
-                  <span>Esplora Attrazioni</span>
-                  <ArrowRight className="h-5 w-5" />
+                  <span className="text-black">Esplora Attrazioni</span>
+                  <ArrowRight className="h-5 w-5 text-black" />
                 </Link>
               </Button>
             </div>

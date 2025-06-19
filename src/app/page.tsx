@@ -363,7 +363,7 @@ export default function Home() {
                 <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300 mb-4">
                   BIGLIETTI
                 </Badge>
-                <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 mb-4">
+                <h2 className="text-4xl pb-2 font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 mb-4">
                   Acquista i tuoi biglietti
                 </h2>
                 <p className="text-lg text-purple-700 dark:text-purple-300">
@@ -559,7 +559,7 @@ export default function Home() {
               <Badge className="bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200 mb-2 px-4 py-1.5 text-sm rounded-full font-bold">
                 SCEGLI IL TUO BIGLIETTO
               </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold  bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+              <h2 className="text-3xl md:text-4xl pb-2 font-bold  bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
                 Biglietti per ogni esigenza
               </h2>
             </motion.div>

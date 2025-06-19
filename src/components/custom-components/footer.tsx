@@ -53,37 +53,31 @@ export default function Footer() {
       <div className="container mx-auto px-4 pt-16 pb-8 relative z-10">
         {/* Newsletter Section */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-3xl p-8 mb-12 border border-white/10 backdrop-blur-sm"
-        >
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="h-5 w-5 text-purple-400" />
-                <span className="text-purple-400 text-sm font-medium">NEWSLETTER MAGICA</span>
-              </div>
-              <h3 className="text-2xl font-bold mb-2">Non perdere la magia!</h3>
-              <p className="text-gray-300">
-                Iscriviti per ricevere offerte esclusive, anteprime delle nuove attrazioni e inviti a eventi speciali.
-              </p>
-            </div>
-            <div className="space-y-3">
-              <div className="flex gap-3">
-                <Input 
-                  type="email" 
-                  placeholder="La tua email" 
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:border-purple-500"
-                />
-                <Button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white">
-                  Iscriviti <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-              <p className="text-xs text-gray-400">Riceverai massimo una email a settimana. Potrai disiscriverti in qualsiasi momento.</p>
-            </div>
-          </div>
-        </motion.div>
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-3xl p-8 mb-12 border border-white/10 backdrop-blur-sm"
+>
+  <div className="grid md:grid-cols-2 gap-8 items-center">
+    <div>
+      <div className="flex items-center gap-2 mb-3">
+        <Sparkles className="h-5 w-5 text-purple-400" />
+        <span className="text-purple-400 text-sm font-medium">IL NOSTRO PROGETTO</span>
+      </div>
+      <h3 className="text-2xl font-bold mb-2">Crescere con cura e creatività</h3>
+      <p className="text-gray-300">
+        Ogni attività è pensata per accompagnare i bambini nel loro percorso di crescita, valorizzando l’espressione, il gioco e la scoperta.
+      </p>
+    </div>
+    <div>
+      <p className="text-md text-gray-400 leading-relaxed">
+        Attraverso laboratori, feste e momenti educativi, creiamo esperienze significative in un ambiente sicuro, accogliente e stimolante.
+        La nostra missione è coltivare la curiosità, la socialità e la fantasia di ogni bambino.
+      </p>
+    </div>
+  </div>
+</motion.div>
+
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Prima colonna - Info Parco */}

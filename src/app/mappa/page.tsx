@@ -305,13 +305,13 @@ export default function MapPage() {
                   <Map className="h-4 w-4" />
                   <span>Mappa Interattiva</span>
                 </TabsTrigger>
-                <TabsTrigger
+                {/* <TabsTrigger
                   value="servizi"
                   className="data-[state=active]:bg-emerald-500 data-[state=active]:text-white rounded-full py-2 px-4 flex items-center gap-2"
                 >
                   <ListFilter className="h-4 w-4" />
                   <span>Servizi e Punti di Interesse</span>
-                </TabsTrigger>
+                </TabsTrigger> */}
               </TabsList>
 
               <div className="flex items-center gap-3 w-full md:w-auto">
@@ -883,9 +883,9 @@ export default function MapPage() {
               </div>
             </TabsContent>
 
-            <TabsContent value="servizi" className="mt-0">
+            {/* <TabsContent value="servizi" className="mt-0">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Ristoranti e Bar */}
+                
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -947,7 +947,7 @@ export default function MapPage() {
                   </Card>
                 </motion.div>
 
-                {/* Servizi */}
+                
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1008,7 +1008,7 @@ export default function MapPage() {
                   </Card>
                 </motion.div>
 
-                {/* Negozi */}
+                
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1069,7 +1069,7 @@ export default function MapPage() {
                   </Card>
                 </motion.div>
 
-                {/* Spettacoli */}
+                
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1130,7 +1130,7 @@ export default function MapPage() {
                   </Card>
                 </motion.div>
               </div>
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         </div>
       </section>
@@ -1297,12 +1297,12 @@ export default function MapPage() {
                 className="text-white border-white/30 hover:bg-white/10 rounded-full px-8 py-6 text-lg group"
               >
                 <Link href="/info" className="flex items-center gap-2">
-                  <span>Informazioni Utili</span>
+                  <span className="text-black">Informazioni Utili</span>
                   <motion.div
                     animate={{ rotate: [0, 15, 0, -15, 0] }}
                     transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2, delay: 1 }}
                   >
-                    <Info className="h-5 w-5" />
+                    <Info className="h-5 w-5 text-black" />
                   </motion.div>
                 </Link>
               </Button>
