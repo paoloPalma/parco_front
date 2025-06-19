@@ -2,7 +2,6 @@
 import Link from "next/link"
 import { Facebook, Instagram, Twitter, MapPin, Phone, Mail, Clock, ArrowRight, Ticket, CalendarDays, Star, Sparkles, MapPinned, Gift } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card,  CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -24,7 +24,6 @@ import {
   ChevronRight,
   Filter,
   Map,
-  ListFilter,
   ShoppingBag,
   Star,
   Plus,
@@ -273,12 +272,12 @@ export default function MapPage() {
   }
 
   // Raggruppa i servizi per categoria
-  const servicesByCategory = {
-    restaurants: mapPoints.filter((point) => point.category === "restaurant"),
-    services: mapPoints.filter((point) => point.category === "service"),
-    shops: mapPoints.filter((point) => point.category === "shop"),
-    shows: mapPoints.filter((point) => point.category === "show"),
-  }
+  // const servicesByCategory = {
+  //   restaurants: mapPoints.filter((point) => point.category === "restaurant"),
+  //   services: mapPoints.filter((point) => point.category === "service"),
+  //   shops: mapPoints.filter((point) => point.category === "shop"),
+  //   shows: mapPoints.filter((point) => point.category === "show"),
+  // }
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
